@@ -1,6 +1,7 @@
 # These are my personal docker containers #
 
-- g++ 
+-  gcc-7
   - g++-7
-  - cmake-3.7
+  - gcc-7
+  - cmake-3.8
   - boost 1.63
