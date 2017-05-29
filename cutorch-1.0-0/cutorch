@@ -1,6 +1,6 @@
-DOCKER_IMAGE='tensorflow'
-CONTAINER_USERNAME='tensorflow'
-CONTAINER_GROUPNAME='tensorflow'
+DOCKER_IMAGE='cutorch'
+CONTAINER_USERNAME='cutorch'
+CONTAINER_GROUPNAME='cutorch'
 HOMEDIR=/home/${CONTAINER_USERNAME}
 GROUP_ID=$(id -g)
 USER_ID=$(id -u)
