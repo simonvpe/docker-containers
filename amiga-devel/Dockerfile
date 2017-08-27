@@ -26,6 +26,8 @@ RUN apt-get update -y \
 			  libsdl2-dev \
 			  libreadline-dev \
 			  libopenal-dev \
+			  python \
+			  python-pip \
     && rm -rf /var/lib/apt/lists/* \
 \
     && echo "Installing atari browner GCC" \
@@ -97,6 +99,10 @@ RUN apt-get update -y \
        && cd fs-uae && ./bootstrap \
        && sed 's/prefix=\/usr\/local/prefix=\/usr/' readline.pc >/usr/lib/pkgconfig/readline.pc \
        && ./configure --with-readline --enable-debug-symbols && make -j8 install \
-       && cd .. && rm -rf fs-uae
-
+       && cd .. && rm -rf fs-uae \
+\
+    && echo "Installing useful python tools" \
+       && pip install --upgrade pip \
+       && pip install amitools \
+       && rm -rf /home/root/.cache
 
