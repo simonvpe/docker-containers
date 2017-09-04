@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
 
-if ! [[ -f "$1" ]]; then
-    echo "Usage: $(basename $0) <adoc_file>"
+while getopts "w" flag; do
+    case "$flag" in
+	w) watch=true
+	   ;;
+    esac
+done
+
+filename=${@:$OPTIND:1}
+
+if ! [[ -f "$filename" ]]; then
+    echo "Usage: $(basename $0) [-w] filename" >&2
+    echo "  -w    Watch file and regenerate whenever it changes" >&2
     exit -1
 fi
 
@@ -12,4 +22,15 @@ gem 'asciidoctor-revealjs'
 EOF
 bundle config --local github.https true
 bundle --path=.bundle/gems --binstubs=.bundle/.bin
-bundle exec asciidoctor-revealjs "$1"
+
+compile() {
+    bundle exec asciidoctor-revealjs "$1"
+}
+
+if [[ "$watch" == "" ]]; then
+    compile "$filename"
+else
+    while inotifywait -e close_write "$filename"; do
+	compile "$filename";
+    done
+fi
