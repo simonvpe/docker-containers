@@ -15,11 +15,17 @@ if ! [[ -f "$filename" ]]; then
     exit -1
 fi
 
-[[ -d "reveal.js" ]] || git clone -b 3.3.0 --depth 1 https://github.com/hakimel/reveal.js.git
-[[ -f "Gemfile" ]] || cat << EOF >Gemfile
+if ! [[ -d "reveal.js" ]]; then
+    git clone -b 3.3.0 --depth 1 https://github.com/hakimel/reveal.js.git
+fi
+    
+if ! [[ -f "Gemfile" ]]; then
+    docat << EOF >Gemfile
 source 'https://rubygems.org'
 gem 'asciidoctor-revealjs'
 EOF
+fi
+
 bundle config --local github.https true
 bundle --path=.bundle/gems --binstubs=.bundle/.bin
 
